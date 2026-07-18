@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArenaAssist & CrowdOps Command - FIFA World Cup 2026</title>
+  <meta name="description" content="A GenAI-enabled stadium operations and fan experience companion for the FIFA World Cup 2026.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header & Navigation -->
+  <header>
+    <div class="brand">
+      <span class="brand-badge">FIFA 2026</span>
+      <h1 class="brand-title">ArenaAssist & CrowdOps</h1>
+    </div>
+    
+    <nav class="role-nav">
+      <button class="role-btn active" id="btn-fan-role" data-view="view-fan">
+        <span>🏟️</span> Fan Companion
+      </button>
+      <button class="role-btn" id="btn-staff-role" data-view="view-staff">
+        <span>🦺</span> Ground Ops
+      </button>
+      <button class="role-btn" id="btn-organizer-role" data-view="view-organizer">
+        <span>📊</span> Command Center
+      </button>
+    </nav>
+  </header>
+
+  <!-- Main Portal -->
+  <main>
+    <!-- Dynamic API Config Row -->
+    <div class="api-key-config glass-card">
+      <div class="api-input-group">
+        <p>🔑 <strong>Optional Gemini Integration</strong>: Insert a Gemini API Key to run actual real-time Generative AI responses. Otherwise, a smart localized context-aware simulator runs automatically.</p>
+        <input type="password" id="api-key-input" class="api-input" placeholder="AIzaSy...">
+        <button id="save-api-key" class="api-save-btn">Connect Key</button>
+      </div>
+    </div>
+
+    <!-- 1. FAN COMPANION VIEW -->
+    <section id="view-fan" class="view-section active">
+      <div class="device-simulator-wrapper">
+        <div class="phone-shell">
+          <div class="phone-screen">
+            <!-- Simulated App Header -->
+            <div class="glass-card" style="padding: 1rem; text-align: center; background: linear-gradient(135deg, rgba(5,10,20,0.8), rgba(0, 242, 254, 0.15)); margin-bottom: 0.5rem;">
+              <h2 style="font-size: 1.1rem; color: #fff; margin-bottom: 2px;">FIFA 2026 MetLife</h2>
+              <p style="font-size: 0.7rem; color: var(--accent-cyan); font-weight: 600;">Welcome, Fan #41028</p>
+            </div>
+
+            <!-- Dynamic Alert Box -->
+            <div id="fan-alert-box" class="glass-card" style="display: none; padding: 0.75rem; border-left: 4px solid var(--warning); background: rgba(255, 159, 26, 0.05); font-size: 0.75rem; color: var(--text-main);">
+              <strong>⚠️ Stadium Broadcast:</strong> <span id="fan-alert-text">Please proceed with caution...</span>
+            </div>
+
+            <!-- GenAI Assistant Area -->
+            <div class="chat-container">
+              <div class="chat-header">
+                <span style="font-size: 0.8rem; font-weight: 700; font-family: var(--font-display);">💬 ArenaAssist Bot</span>
+                <div class="chat-status">
+                  <div class="status-dot"></div>
+                  <span>AI Live</span>
+                </div>
+              </div>
+              <div class="chat-messages" id="fan-chat-messages">
+                <div class="message ai">
+                  Welcome to FIFA World Cup 2026! I am your <strong>GenAI ArenaAssist</strong>. Ask me anything about gate wait times, security rules, cashless ATMs, or transit back home!
+                </div>
+              </div>
+              <div class="chat-input-area">
+                <div class="chat-suggestions">
+                  <button class="suggest-btn" data-query="Current gate wait times?">🚪 Gate waits</button>
+                  <button class="suggest-btn" data-query="What is the bag policy?">🎒 Bag rules</button>
+                  <button class="suggest-btn" data-query="Where can I refill my water?">💧 Water refilling</button>
+                  <button class="suggest-btn" data-query="What public transit options exist?">🚆 Transit info</button>
+                  <button class="suggest-btn" data-query="Show sustainability challenges">🌱 Green challenges</button>
+                </div>
+                <form class="chat-form" id="fan-chat-form">
+                  <input type="text" id="fan-chat-input" class="chat-input" placeholder="Type or ask details..." autocomplete="off">
+                  <button type="submit" class="chat-send-btn">➔</button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Sustainability Green Hub -->
+            <div class="glass-card sus-progress-card">
+              <div class="heading-container">
+                <h3 class="heading-title"><span class="text-emerald">🌱</span> Green Fan Hub</h3>
+                <span class="challenge-points" id="fan-total-points">120 pts</span>
+              </div>
+              <div class="eco-stats">
+                <div>
+                  <div class="eco-stat-val" id="fan-co2-saved">5.6 kg</div>
+                  <div class="eco-stat-lbl">CO₂ Prevented</div>
+                </div>
+                <div>
+                  <div class="eco-stat-val" id="fan-water-saved">2</div>
+                  <div class="eco-stat-lbl">Bottles Refilled</div>
+                </div>
+              </div>
+              <div class="sus-challenges-list">
+                <div class="challenge-item">
+                  <div class="challenge-info">
+                    <h4>Eco-Transit Champion</h4>
+                    <p>Earn +150 Green Points by arriving via subway.</p>
+                  </div>
+                  <button class="dispatch-btn" id="claim-transit-btn" style="margin:0;">Claim</button>
+                </div>
+                <div class="challenge-item">
+                  <div class="challenge-info">
+                    <h4>Hydration station refilled</h4>
+                    <p>Earn +80 Green Points per refill.</p>
+                  </div>
+                  <button class="dispatch-btn" id="claim-refill-btn" style="margin:0;">Log Refill</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. GROUND OPERATIONS VIEW -->
+    <section id="view-staff" class="view-section">
+      <div class="grid-container">
+        <!-- Translator Terminal -->
+        <div class="glass-card col-5 translation-panel">
+          <div class="heading-container">
+            <h3 class="heading-title"><span class="text-cyan">🗣️</span> Multilingual translation</h3>
+            <select id="staff-lang-select" class="lang-select">
+              <option value="Spanish">Spanish 🇪🇸</option>
+              <option value="French">French 🇫🇷</option>
+              <option value="Portuguese">Portuguese 🇧🇷</option>
+              <option value="German">German 🇩🇪</option>
+            </select>
+          </div>
+          
+          <div class="translation-grid">
+            <div class="translation-box">
+              <h4>Input (English Speech/Text)</h4>
+              <textarea class="translation-textarea" id="staff-input-text" placeholder="Type here what you want to translate (e.g. Please proceed to Gate 6 to bypass wait times)..."></textarea>
+            </div>
+            <div class="translation-box">
+              <h4>Translation Output</h4>
+              <textarea class="translation-textarea" id="staff-output-text" readonly placeholder="Translation will output here..."></textarea>
+            </div>
+          </div>
+          <button class="dispatch-btn" id="btn-translate-ops" style="align-self: flex-end;">Translate Prompt</button>
+
+          <!-- Standard Phrase Snippets -->
+          <div style="margin-top: 1rem;">
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px;">Common Quick-Phrases:</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              <button class="suggest-btn quick-translate-phrase" data-text="The wait time at Gate 4 is currently 42 minutes. We recommend using Gate 5 or 6.">Gate 4 wait times advice</button>
+              <button class="suggest-btn quick-translate-phrase" data-text="Only small clear bags under 12x6x12 inches are permitted inside the stadium.">Clear bag rules announcement</button>
+              <button class="suggest-btn quick-translate-phrase" data-text="Excuse me, please share the section number printed on your ticket so I can guide you.">Ask section on ticket</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Task dispatcher queue -->
+        <div class="glass-card col-7 incident-panel">
+          <div class="heading-container">
+            <h3 class="heading-title"><span class="text-magenta">📋</span> Assigned Ground Ops Tasks</h3>
+            <span class="brand-badge" id="ops-active-task-count">0 tasks active</span>
+          </div>
+          
+          <div class="incidents-list" id="staff-tasks-container">
+            <!-- Dispatched tasks will populate here dynamically -->
+            <div style="text-align: center; color: var(--text-muted); padding: 2rem;">
+              🧹 No tasks currently active. Clean-up crews and guides are on standby.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. ORGANIZER COMMAND CENTER VIEW -->
+    <section id="view-organizer" class="view-section">
+      <!-- Top Command Stats Bar -->
+      <div class="ops-stats-grid">
+        <div class="glass-card stat-widget">
+          <h4>Stadium Attendance</h4>
+          <div class="stat-widget-num text-cyan" id="ops-attendance-val">68,245</div>
+          <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;">Capacity: 82,500 (82.7%)</p>
+        </div>
+        <div class="glass-card stat-widget">
+          <h4>Max Concourse Wait</h4>
+          <div class="stat-widget-num text-gold" id="ops-max-wait-val">22 Mins</div>
+          <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;">World Cup Grill (Sec 128)</p>
+        </div>
+        <div class="glass-card stat-widget">
+          <h4>Active Incidents</h4>
+          <div class="stat-widget-num text-magenta" id="ops-active-incidents-val">0</div>
+          <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;">Dynamic on-ground hazards</p>
+        </div>
+        <div class="glass-card stat-widget">
+          <h4>Green Fan Points</h4>
+          <div class="stat-widget-num text-emerald" id="ops-green-points-val">12,450</div>
+          <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 4px;">Transit & recycling logs today</p>
+        </div>
+      </div>
+
+      <div class="grid-container">
+        <!-- Interactive Heatmap / Canvas Map -->
+        <div class="glass-card col-7 map-card">
+          <div class="heading-container" style="padding: 1rem 1rem 0.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <h3 class="heading-title"><span class="text-cyan">🏟️</span> Interactive Crowd Flow Map</h3>
+            <span class="chat-status" id="sim-status-lbl">
+              <div class="status-dot"></div> Live Simulation
+            </span>
+          </div>
+          
+          <div class="canvas-container">
+            <canvas id="heatmap-canvas" width="600" height="400"></canvas>
+          </div>
+
+          <!-- Parameter Adjustments Overlay -->
+          <div class="sim-controls-overlay">
+            <div class="sim-slider-group">
+              <label for="speed-range">Simulation Speed: <span id="speed-lbl">1.0x</span></label>
+              <input type="range" id="speed-range" class="sim-slider" min="0" max="3" step="0.1" value="1">
+            </div>
+            <div class="sim-slider-group">
+              <label for="density-range">Crowd Density: <span id="density-lbl">250</span></label>
+              <input type="range" id="density-range" class="sim-slider" min="50" max="600" step="10" value="250">
+            </div>
+            <button class="dispatch-btn" id="btn-trigger-incident-manually" style="margin: 0;">⚡ Trigger Hazard</button>
+          </div>
+        </div>
+
+        <!-- Incidents and Command Log -->
+        <div class="glass-card col-5 incident-panel">
+          <div class="heading-container">
+            <h3 class="heading-title"><span class="text-magenta">⚠️</span> Active Incidents Dashboard</h3>
+            <span class="suggest-btn" id="btn-clear-incidents" style="cursor: pointer;">Clear All</span>
+          </div>
+
+          <!-- GenAI Executive Summary Box -->
+          <div class="incident-ai-box" style="margin-bottom: 0.5rem; background: rgba(255, 0, 127, 0.05); border: 1px solid rgba(255, 0, 127, 0.15);">
+            <h4 style="color: var(--accent-magenta); margin-bottom: 4px; font-size: 0.75rem;">🤖 GenAI Command Recommendation</h4>
+            <div id="genai-ops-recommendation">Analyzing crowd flow and gate backups... Generate a dashboard report using the button below.</div>
+            <button class="suggest-btn" id="btn-generate-report" style="margin-top: 6px; padding: 2px 8px; border-color: rgba(255, 0, 127, 0.3); color: var(--accent-magenta);">Generate Operations Report</button>
+          </div>
+
+          <div class="incidents-list" id="organizer-incidents-container">
+            <!-- Active incidents populate here -->
+            <div style="text-align: center; color: var(--text-muted); padding: 2rem;">
+              ✅ Stadium operations running smoothly. No active hazards detected.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>FIFA World Cup 2026 ArenaAssist & CrowdOps Command - Designed for Metropolitan Stadiums.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/ai-engine.js"></script>
+  <script src="js/crowd-simulation.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
