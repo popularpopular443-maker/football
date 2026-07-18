@@ -1,12 +1,15 @@
-const express = 
-  require('express');
+const express = require("express");
+const path = require("path");
 const app = express();
+const PORT = process.env.PORT || 10000;
+//serve static files
+app.use(express.static(__dirname));
 
-app.use(express.static('index.html'));
+app.get("/",(req,res) => {
+  res.sendFile(path.join(__dirname,"index.html"));
+});
 
-const port = process.env.PORT || 8080;
-
-app.listen(port, '0.0.0.0', () => 
+app.listen(PORT, () => 
 {
-  console.log("App running on port" + port);
+  console.log("Server running on port" +PORT);
 });
